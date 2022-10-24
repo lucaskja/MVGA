@@ -1,4 +1,5 @@
 *.off
 /of
+/VisOf
 *.txt
 *.pdf
