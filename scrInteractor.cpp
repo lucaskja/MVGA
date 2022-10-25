@@ -279,8 +279,7 @@ void scrInteractor::Mouse(int button, int state, int x, int y) /* coordena */
 	if (state == GLUT_DOWN)
 	{
 		double grava[3];
-		if (pt_mouse.getZero())
-			pt_mouse.setValues (x, y); 
+		if (pt_mouse.getZero()) pt_mouse.setValues (x, y); 
 
 		pt_mouse_old = pt_mouse;
 		pt_mouse.setValues(x, y);
@@ -297,9 +296,9 @@ void scrInteractor::Mouse(int button, int state, int x, int y) /* coordena */
 		{
 			// GRAVA O CLICK ESQUERDO
 			this->ScreenToPoint(this->pt_mouse, grava);
-			PXD = grava[0];
-			PYD = grava[1];
-			this->mouse_right = true;
+			PX = grava[0];
+			PY = grava[1];
+			this->mouse_left = true;
 			//
 			mod_keys = glutGetModifiers();
 			if (mod_keys == GLUT_ACTIVE_SHIFT)
@@ -1528,7 +1527,7 @@ WriteScreenImage(){
 
    /* Clean up */
    this->screenFilenameNumber++;
-//    free(image);
+   free(image);
    return true;
 }
  

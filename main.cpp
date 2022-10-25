@@ -67,7 +67,7 @@ int type = 3;
 ////////////////////////////////////////////////////////////////////////
 
 //------- ID DAS CELLS
-int id_init = 255; //começa arbitrariamnte na celula 255
+int id_init = 170; //começa arbitrariamnte na celula 170 (São Paulo)
 //------- COORD DO PONTO FINAL
 double xp = 0.0;
 double yp = 0.0;
@@ -75,20 +75,19 @@ double yp = 0.0;
 //-------- FUNÇÕES
 void getInicio();
 void EP(double xp, double yp);
-void bari(double xp, double yp, int id, double& bar1, double& bar2, double& bar3);
+void bari(double xp, double yp, int id, double &bar1, double &bar2, double &bar3);
 bool verifica(int& menor, double bar1, double bar2, double bar3);
 //-----------------
 
 //------- BUSCA PARA ENCONTRAR O TRIANGULO DE INÍCIO
 void getInicio()
 {
-     double xp = Interactor->getPXD(); //coordenada x do clique direito
-     double yp = Interactor->getPYD(); //coordenada y do clique direito
-     double bar1, bar2, bar3; //coordenadas baricentricas
-     int i;
+      double xp = Interactor->getPXD(); //coordenada x do clique direito
+      double yp = Interactor->getPYD(); //coordenada y do clique direito
+      double bar1, bar2, bar3; //coordenadas baricentricas
      
-     for (i = 0; i < malha->getNumberOfCells(); i++)
-     {
+      for (int i = 0; i < malha->getNumberOfCells(); i++)
+      {
          bar1 = bar2 = bar3 = -1;
          bari(xp, yp, i, bar1, bar2, bar3);
          
@@ -101,9 +100,9 @@ void getInicio()
          //CLIQUE DIREITO FORA DO MAPA RESETA 
          else
          {
-             id_init = 255;
+             id_init = 170;
          }
-     }
+      }
 }
 //-----------------------
 
@@ -196,7 +195,7 @@ void EP(double xp, double yp, int id)
    while (bar1 <= 0 || bar2 <= 0 || bar3 <= 0)
    {
       //IMPRIMIR O TRIANGULO VISITADO
-      Print->Face(malha->getCell(id), yellow);
+      Print->Face(malha->getCell(id), dgreen);
       //CALCULO DAS COORDENADAS BARICENTRICAS
       bari(xp, yp, id, bar1, bar2, bar3);
       //VERIFICAR SE CHEGOU AO TRIANGULO DESEJADO OU QUAL O PROXIMO
@@ -204,30 +203,30 @@ void EP(double xp, double yp, int id)
       if (resp) break;
       else
       {
-          prox = malha->getCell(id)->getMateId(menor);
-          //VERIFICAR SE CHEGOU NA FRONTEIRA
-          if (prox == -1)
-          {
-             //IMPRIME A vertice POR ONDE SAIU - 3 CASOS
-             if (menor == 0) //BC
-             { 
-                vertice[0] = 1;
-                vertice[1] = 2;
-             }
-             else if (menor == 1) //CA
-             {
-                  vertice[0] = 2;
-                  vertice[1] = 0;
-             }
-             else //AB
-             {
-                  vertice[0] = 0;
-                  vertice[1] = 1;
-             }
+         prox = malha->getCell(id)->getMateId(menor);
+         //VERIFICAR SE CHEGOU NA FRONTEIRA
+         if (prox == -1)
+         {
+            //IMPRIME A vertice POR ONDE SAIU - 3 CASOS
+            if (menor == 0) //BC
+            { 
+               vertice[0] = 1;
+               vertice[1] = 2;
+            }
+            else if (menor == 1) //CA
+            {
+               vertice[0] = 2;
+               vertice[1] = 0;
+            }
+            else //AB
+            {
+               vertice[0] = 0;
+               vertice[1] = 1;
+            }
              
-             Print->Edge(malha->getVertex(malha->getCell(id)->getVertexId(vertice[0])), malha->getVertex(malha->getCell(id)->getVertexId(vertice[1])), red);
-            //  break;
-          }
+            Print->Edge(malha->getVertex(malha->getCell(id)->getVertexId(vertice[0])), malha->getVertex(malha->getCell(id)->getVertexId(vertice[1])), black, 3.0);
+            break;
+         }
       }
       id = prox;
    }
@@ -236,30 +235,30 @@ void EP(double xp, double yp, int id)
 
 void RenderScene(void){
 	allCommands->Execute();
-	Print->Vertices(malha,dred,3);
+	Print->Vertices(malha,blue,3);
 	
-	//PINTA AS CELLS
-    Print->Face(malha->getCell(id_init), black);
+	//PINTA A CELL DE INÍCIO DO PERCURSO
+   Print->Face(malha->getCell(id_init), yellow);
     
-    //CHAMA A FUNÇÃO
-    if (Interactor->getMouseRight() == true)
-    {
-       getInicio();
-       xp = Interactor->getPX();
-       yp = Interactor->getPY();
-       Print->FacesWireframe(malha,grey,3);
-   	   glFinish();
-	   glutSwapBuffers();
-    }
-    //IMPRIME O CAMINHO
-    if (xp != Interactor->getPX() || yp != Interactor->getPY())
-    {
-       EP(Interactor->getPX(), Interactor->getPY(), id_init);
-       Print->FacesWireframe(malha,grey,3);
-   	   glFinish();
-	   glutSwapBuffers();
-    }
- 
+   //CHAMA A FUNÇÃO DE VARREDURA
+   if (Interactor->getMouseRight() == true)
+   {
+      getInicio();
+      xp = Interactor->getPXD();
+      yp = Interactor->getPYD();
+      Print->FacesWireframe(malha,grey,3);
+         glFinish();
+         glutSwapBuffers();
+   }
+   //IMPRIME O CAMINHO
+   if (xp != Interactor->getPX() || yp != Interactor->getPY())
+   {
+      EP(Interactor->getPX(), Interactor->getPY(), id_init);
+      Print->FacesWireframe(malha,grey,3);
+         glFinish();
+         glutSwapBuffers();
+   }
+
 	Print->FacesWireframe(malha,grey,3);
 	glFinish();
 	glutSwapBuffers();
@@ -291,10 +290,10 @@ using namespace std;
 int main(int *argc, char **argv)
 {
 
-  ofRuppert2D<MyofDefault2D> ruppert;
-  ofPoints2DReader<MyofDefault2D> reader;
-  ofVtkWriter<MyofDefault2D> writer;
-  Interactor->setDraw(RenderScene);
+   ofRuppert2D<MyofDefault2D> ruppert;
+   ofPoints2DReader<MyofDefault2D> reader;
+   ofVtkWriter<MyofDefault2D> writer;
+   Interactor->setDraw(RenderScene);
 	meshHandler.Set(new TMesh());
       char *fileBrasil = "../Brasil.off";
 
@@ -304,11 +303,11 @@ int main(int *argc, char **argv)
     ruppert.execute2D(reader.getLv(),reader.getLids(),true);
     //writer.write(ruppert.getMesh(),"out.vtk",reader.getNorma(),ruppert.getNumberOfInsertedVertices());
   
-  meshHandler = ruppert.getMesh();
-  malha = ruppert.getMesh();
+   meshHandler = ruppert.getMesh();
+   malha = ruppert.getMesh();
   
   
-  Print = new TPrintOf(meshHandler);
+   Print = new TPrintOf(meshHandler);
 
 	allCommands = new TMyCommands(Print, Interactor);
 
