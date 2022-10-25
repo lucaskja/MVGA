@@ -45,3 +45,5 @@ bool baricêntrica(int &menor, double xp, double yp, int id, double &bar1, doubl
 
 void solucaoEP(double xp, double yp)
     - Pega a função baricentrica e traça o menor caminho dos triângulos
+
+EP 1
