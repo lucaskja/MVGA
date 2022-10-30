@@ -85,14 +85,15 @@ void getInicio()
    double yp = Interactor->getPYD(); //coordenada y do clique direito
    double bar1, bar2, bar3; //coordenadas baricentricas
    int i, menor;
+   bool resp;
      
    for (i = 0; i < malha->getNumberOfCells(); i++)
    {
       bar1 = bar2 = bar3 = -1;
-      baricentrica(menor, xp, yp, i, bar1, bar2, bar3);
+      resp = baricentrica(menor, xp, yp, i, bar1, bar2, bar3);
          
       //ATUALIZA E ENCERRA SE ENCONTRAR TRIANGULO NO PONTO CLICADO
-      if (bar1 > 0 && bar2 > 0 && bar3 > 0)
+      if (resp)
       {
          id_init = i;
          break;
@@ -157,7 +158,7 @@ void solucaoEP(double xp, double yp, int id)
    while (bar1 <= 0 || bar2 <= 0 || bar3 <= 0)
    {
       //IMPRIMIR O TRIANGULO VISITADO
-      Print->Face(malha->getCell(id), dgreen);
+      Print->Face(malha->getCell(id), lblue);
       //CALCULO DAS COORDENADAS BARICENTRICAS
       resp = baricentrica(menor, xp, yp, id, bar1, bar2, bar3);
       if (resp) break;
@@ -184,7 +185,7 @@ void solucaoEP(double xp, double yp, int id)
                vertice[1] = 1;
             }
              
-            Print->Edge(malha->getVertex(malha->getCell(id)->getVertexId(vertice[0])), malha->getVertex(malha->getCell(id)->getVertexId(vertice[1])), black, 3.0);
+            Print->Edge(malha->getVertex(malha->getCell(id)->getVertexId(vertice[0])), malha->getVertex(malha->getCell(id)->getVertexId(vertice[1])), dblue, 7.0);
             break;
          }
       }
@@ -198,7 +199,7 @@ void RenderScene(void){
 	Print->Vertices(malha,blue,3);
 	
 	//PINTA A CELL DE INÍCIO DO PERCURSO
-   Print->Face(malha->getCell(id_init), yellow);
+   Print->Face(malha->getCell(id_init), blue);
     
    //CHAMA A FUNÇÃO DE VARREDURA
    if (Interactor->getMouseRight() == true)
