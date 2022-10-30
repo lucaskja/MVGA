@@ -74,35 +74,35 @@ double yp = 0.0;
 
 //-------- ESQUELETO FUNÇÕES
 void getInicio();
-void solucaoEP(double xp, double yp);
+void solucaoEP(double xp, double yp, int id);
 bool baricentrica(int &menor, double xp, double yp, int id, double &bar1, double &bar2, double &bar3);
 //-----------------
 
 //------- BUSCA PARA ENCONTRAR O TRIANGULO DE INÍCIO
 void getInicio()
 {
-      double xp = Interactor->getPXD(); //coordenada x do clique direito
-      double yp = Interactor->getPYD(); //coordenada y do clique direito
-      double bar1, bar2, bar3; //coordenadas baricentricas
-      int i, menor;
+   double xp = Interactor->getPXD(); //coordenada x do clique direito
+   double yp = Interactor->getPYD(); //coordenada y do clique direito
+   double bar1, bar2, bar3; //coordenadas baricentricas
+   int i, menor;
      
-      for (i = 0; i < malha->getNumberOfCells(); i++)
-      {
-         bar1 = bar2 = bar3 = -1;
-         baricentrica(menor, xp, yp, i, bar1, bar2, bar3);
+   for (i = 0; i < malha->getNumberOfCells(); i++)
+   {
+      bar1 = bar2 = bar3 = -1;
+      baricentrica(menor, xp, yp, i, bar1, bar2, bar3);
          
-         //ATUALIZA E ENCERRA SE ENCONTRAR TRIANGULO NO PONTO CLICADO
-         if (bar1 > 0 && bar2 > 0 && bar3 > 0)
-         {
-            id_init = i;
-            break;
-         }
-         //CLIQUE DIREITO FORA DO MAPA RESETA 
-         else
-         {
-             id_init = 170;
-         }
+      //ATUALIZA E ENCERRA SE ENCONTRAR TRIANGULO NO PONTO CLICADO
+      if (bar1 > 0 && bar2 > 0 && bar3 > 0)
+      {
+         id_init = i;
+         break;
       }
+      //CLIQUE DIREITO FORA DO MAPA RESETA 
+      else
+      {
+          id_init = 170;
+      }
+   }
 }
 //-----------------------
 
@@ -206,6 +206,7 @@ void RenderScene(void){
       getInicio();
       xp = Interactor->getPXD();
       yp = Interactor->getPYD();
+      solucaoEP(Interactor->getPX(), Interactor->getPY(), id_init);
       Print->FacesWireframe(malha,grey,3);
          glFinish();
          glutSwapBuffers();
