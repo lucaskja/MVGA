@@ -17,27 +17,27 @@ double PY = 0.0;
 double PXD = 0.0;
 double PYD = 0.0;
 
-//      RETORNA TRUE SE O BOTAO DO MOUSE FOI ACIONADO
+//Faz um GET para pegar as variáveis booleanas mouse_right e left pois elas são variáveis protegidas
 bool scrInteractor::getMouseLeft()
 {
-     return this->mouse_left;
+    return this->mouse_left;
 }
 bool scrInteractor::getMouseRight()
 {
-     return this->mouse_right;
+    return this->mouse_right;
 }
 
-//       FUNÇÇÕES RETORNAM OS PONTOS CLICADOS
+//Faz um GET para pegar as coordenadas, pois pt_mouse é protegido
 //Clique esquerdo
 double scrInteractor::getPX() {
-       return PX; }
+    return PX; }
 double scrInteractor::getPY() {
-       return PY; }
+    return PY; }
 //Clique direito
 double scrInteractor::getPXD() {
-       return PXD; }
+    return PXD; }
 double scrInteractor::getPYD() {
-       return PYD; }
+    return PYD; }
 //-----------------------------------------------------
 
 /*====================== glButton ===================================*/
@@ -285,7 +285,7 @@ void scrInteractor::Mouse(int button, int state, int x, int y) /* coordena */
 		pt_mouse.setValues(x, y);
 
 		if (button == GLUT_RIGHT_BUTTON)
-			// GRAVA O CLICK DIREITO
+			// GRAVA O CLICK DIREITO EM DUAS DIMENSÕES
 			this->ScreenToPoint(this->pt_mouse, grava);
 			PXD = grava[0];
 			PYD = grava[1];
@@ -294,7 +294,7 @@ void scrInteractor::Mouse(int button, int state, int x, int y) /* coordena */
 		
 		if (button == GLUT_LEFT_BUTTON)
 		{
-			// GRAVA O CLICK ESQUERDO
+			// GRAVA O CLICK ESQUERDO EM DUAS DIMENSÕES
 			this->ScreenToPoint(this->pt_mouse, grava);
 			PX = grava[0];
 			PY = grava[1];

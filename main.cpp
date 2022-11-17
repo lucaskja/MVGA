@@ -73,13 +73,13 @@ double xp = 0.0;
 double yp = 0.0;
 
 //-------- ESQUELETO FUNÇÕES
-void getInicio();
+void defineInicio();
 void solucaoEP(double xp, double yp, int id);
 bool baricentrica(int &menor, double xp, double yp, int id, double &bar1, double &bar2, double &bar3);
 //-----------------
 
 //------- BUSCA PARA ENCONTRAR O TRIANGULO DE INÍCIO
-void getInicio()
+void defineInicio()
 {
    double xp = Interactor->getPXD(); //coordenada x do clique direito
    double yp = Interactor->getPYD(); //coordenada y do clique direito
@@ -204,7 +204,7 @@ void RenderScene(void){
    //CHAMA A FUNÇÃO DE VARREDURA
    if (Interactor->getMouseRight() == true)
    {
-      getInicio();
+      defineInicio();
       xp = Interactor->getPXD();
       yp = Interactor->getPYD();
       solucaoEP(Interactor->getPX(), Interactor->getPY(), id_init);
