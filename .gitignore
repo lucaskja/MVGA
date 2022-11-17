@@ -1,6 +1,6 @@
 *.off
 of
-VisOf
-build
+VisOf/
+build/
 *.txt
 *.pdf

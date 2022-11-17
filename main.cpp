@@ -73,39 +73,9 @@ double xp = 0.0;
 double yp = 0.0;
 
 //-------- ESQUELETO FUNÇÕES
-void getInicio();
 void solucaoEP(double xp, double yp, int id);
 bool baricentrica(int &menor, double xp, double yp, int id, double &bar1, double &bar2, double &bar3);
 //-----------------
-
-//------- BUSCA PARA ENCONTRAR O TRIANGULO DE INÍCIO
-void getInicio()
-{
-   double xp = Interactor->getPXD(); //coordenada x do clique direito
-   double yp = Interactor->getPYD(); //coordenada y do clique direito
-   double bar1, bar2, bar3; //coordenadas baricentricas
-   int i, menor;
-   bool resp;
-     
-   for (i = 0; i < malha->getNumberOfCells(); i++)
-   {
-      bar1 = bar2 = bar3 = -1;
-      resp = baricentrica(menor, xp, yp, i, bar1, bar2, bar3);
-         
-      //ATUALIZA E ENCERRA SE ENCONTRAR TRIANGULO NO PONTO CLICADO
-      if (resp)
-      {
-         id_init = i;
-         break;
-      }
-      //CLIQUE DIREITO FORA DO MAPA RESETA 
-      else
-      {
-          id_init = 170;
-      }
-   }
-}
-//-----------------------
 
 //----------(EXPLICAÇÃO NO README.md)
 bool baricentrica(int &menor, double xp, double yp, int id, double& bar1, double& bar2, double& bar3)
@@ -204,7 +174,6 @@ void RenderScene(void){
    //CHAMA A FUNÇÃO DE VARREDURA
    if (Interactor->getMouseRight() == true)
    {
-      getInicio();
       xp = Interactor->getPXD();
       yp = Interactor->getPYD();
       solucaoEP(Interactor->getPX(), Interactor->getPY(), id_init);
