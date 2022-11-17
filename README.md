@@ -45,7 +45,7 @@ Temos um mapa do Brasl, providenciado pelo professor Helton, com o clique esquer
                         if (bar2 < bar1 && bar2 < bar3) { menor = bar2; }
                         if (bar3 < bar1 && bar3 < bar2) { menor = bar3; }
 
-    void solucaoEP(double xp, double yp)
+    void solucaoEP(double xp, double yp, int id)
 
         - Pega a função baricentrica e traça o menor caminho dos triângulos
 
